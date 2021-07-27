@@ -4,7 +4,7 @@
 # "sudo systemctl start genomicsdb"
 # "sudo systemctl stop genomicsdb"
 date
-source ${HOME}/devel/godb/cfg/webapp.cfg
+source ${GODBROOT}/cfg/webapp.cfg
 #CONFFILE=$1
 #source $CONFFILE
 #python ${PYWDIR}/run.py > ${LOGDIR}/godb_server.log 2>&1 &
