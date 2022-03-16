@@ -89,6 +89,8 @@ class VCFrecord():
       if "=" in info_elem:
         key_val = info_elem.split("=")
         info[key_val[0]]=key_val[1]
+      if "IMPUTED" in info_data:
+        info['INFO'] = '1'
     return info
 
   def get_info_value(self, key):

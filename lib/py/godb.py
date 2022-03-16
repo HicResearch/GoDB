@@ -168,11 +168,17 @@ class GoDb():
     try:
       doc["ref_maf"] = float(vcfr.get_info_value("RefPanelAF"))  
     except:
-      pass
+      try:
+        doc["ref_maf"] = float(vcfr.get_info_value("AF"))
+      except:
+        pass
     try:
       doc["info"] = float(vcfr.get_info_value("INFO"))  
     except:
-      doc["info"] = 1.0
+      try:
+        doc["info"] = float(vcfr.get_info_value("ER2"))
+      except:
+        doc["info"] = 1.0
 
     self.variantbuff.append(doc)
 
