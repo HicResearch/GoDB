@@ -60,3 +60,26 @@ def test_get_posn():
     vcfr = vcfrecord.VCFrecord(get_vcf_line(1))
     posn = vcfr.get_posn_as_int()
     assert posn == 16482885
+
+def test_get_calls1():
+    vcfr = vcfrecord.VCFrecord(get_vcf_line(1))
+    probidx = vcfr.get_probidx()
+    prfx, sfx = vcfr.get_prfx_sfx()
+    geno_data = sfx[0].split(":")
+    probVals = geno_data[probidx]
+    call, call_idx, prob = vcfr.get_call(probVals.split(','), 0.3)
+    assert call == '0/0'
+    assert call_idx == 0
+    assert prob == 1.0
+
+def test_get_calls3():
+    vcfr = vcfrecord.VCFrecord(get_vcf_line(3))
+    probidx = vcfr.get_probidx()
+    prfx, sfx = vcfr.get_prfx_sfx()
+    geno_data = sfx[0].split(":")
+    probVals = geno_data[probidx]
+    call, call_idx, prob = vcfr.get_call(probVals.split(','), 0.3)
+    assert call == '1/1'
+    assert call_idx == 2
+    assert prob == 0.712
+
