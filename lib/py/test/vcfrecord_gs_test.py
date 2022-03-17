@@ -44,3 +44,19 @@ def test_get_info_no_ER2():
     vcfr = vcfrecord.VCFrecord(get_vcf_line(1))
     info = vcfr.get_info_value('ER2')
     assert info is None
+
+def test_get_varid():
+    vcfr = vcfrecord.VCFrecord(get_vcf_line(1))
+    rsid = vcfr.get_varid()
+    assert rsid == '22:16482885:G:A'
+
+def test_get_alleles():
+    vcfr = vcfrecord.VCFrecord(get_vcf_line(1))
+    ref_allele, alt_allele = vcfr.get_alleles()
+    assert ref_allele == 'G'
+    assert alt_allele == 'A'
+
+def test_get_posn():
+    vcfr = vcfrecord.VCFrecord(get_vcf_line(1))
+    posn = vcfr.get_posn_as_int()
+    assert posn == 16482885
