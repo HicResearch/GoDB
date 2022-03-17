@@ -13,6 +13,7 @@ class VCFrecord():
     self.filter_idx = 5
     self.info_idx = 7
     self.fmt_idx = 8
+    # TODO - add entries for phased calls e.g. "0|0"
     self.calls = ["0/0", "0/1", "1/1", "./."]
     self.icalls = [0, 1, 2, -9]
 
