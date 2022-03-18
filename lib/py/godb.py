@@ -165,6 +165,8 @@ class GoDb():
     doc["alleleA"] = alleleA
     doc["alleleB"] = alleleB
     doc["position"] = vcfr.get_posn_as_int()
+    # here need to deal with the two different types of VCF file: GD & GS
+    # with GD data the AF is stored in the RefPanelAF in GS it's AF
     try:
       doc["ref_maf"] = float(vcfr.get_info_value("RefPanelAF"))  
     except:
@@ -172,13 +174,15 @@ class GoDb():
         doc["ref_maf"] = float(vcfr.get_info_value("AF"))
       except:
         pass
+    # for the probabilities in GD they're stored in the INFO field
+    # and in GS they're stored in R2 if imputed.
     try:
       doc["info"] = float(vcfr.get_info_value("INFO"))  
     except:
       try:
-        doc["info"] = float(vcfr.get_info_value("ER2"))
+        doc["info"] = float(vcfr.get_info_value("R2"))
       except:
-        doc["info"] = 1.0
+        doc["info"] = '1'
 
     self.variantbuff.append(doc)
 
