@@ -45,6 +45,16 @@ def test_get_info_no_ER2():
     info = vcfr.get_info_value('ER2')
     assert info is None
 
+def test_get_info_R2():
+    vcfr = vcfrecord.VCFrecord(get_vcf_line(2))
+    info = vcfr.get_info_value('R2')
+    assert info == '0.99158'
+
+def test_get_info_no_R2():
+    vcfr = vcfrecord.VCFrecord(get_vcf_line(1))
+    info = vcfr.get_info_value('R2')
+    assert info is not None
+
 def test_get_varid():
     vcfr = vcfrecord.VCFrecord(get_vcf_line(1))
     rsid = vcfr.get_varid()
