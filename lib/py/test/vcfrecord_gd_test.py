@@ -30,7 +30,7 @@ def test_get_info_info1():
     info = vcfr.get_info_value('INFO')
     assert info == '0.844373'
 
-def test_get_info_info1():
+def test_get_info_info2():
     vcfr = vcfrecord.VCFrecord(get_vcf_line(2))
     info = vcfr.get_info_value('INFO')
     assert info == '1'
