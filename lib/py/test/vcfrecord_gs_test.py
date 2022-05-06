@@ -26,12 +26,12 @@ def test_get_info_af():
     assert af == '0.00011'
 
 def test_get_info_info():
-    vcfr = vcfrecord.VCFrecord(get_vcf_line(1))
+    vcfr = vcfrecord.VCFrecord(get_vcf_line(2))
     info = vcfr.get_info_value('INFO')
     assert info == '1'
 
 def test_get_info_no_info():
-    vcfr = vcfrecord.VCFrecord(get_vcf_line(2))
+    vcfr = vcfrecord.VCFrecord(get_vcf_line(1))
     info = vcfr.get_info_value('INFO')
     assert info is None
 
