@@ -54,23 +54,37 @@ class MyDataStore(DataStore):
         self.call_rates = {}
         self.maxrslist = 200
 
+# global vars of test variables
+PATH = 'lib/py/test/'
+ASSAY = 'gd'
+CHROMOSOME = '21'
+RSID = 'rs181691356'
 
 def load_vcf():
     '''
     Load test data from VCF file
     '''
     godb = MyDb()
-    with open('lib/py/test/gd.vcf','r') as vcf:
+    fullpath = PATH + '/' + ASSAY + '/' + 'chr' + CHROMOSOME + '.vcf'
+    with open(fullpath,'r') as vcf:
         count = 0
         for line in vcf:
             line = line.strip()
             if (line.startswith('#')):
                 pass
             else:
-                godb.process_variant_detail_vcf(line, 'testassay')
+                godb.process_variant_detail_vcf(line, ASSAY)
                 count = count + 1
     godb.flush_variant_buff()
     return(count)
+
+def load_filepath():
+    '''
+    Load filepath for test file
+    '''
+    godb = MyDb()
+    fullpath = PATH + '/' + ASSAY + '/' + 'chr' + CHROMOSOME + '.vcf'
+    godb.add_filepath_detail(ASSAY, PATH, ASSAY, fullpath)
 
 def test_load_vcf():
     '''
@@ -78,6 +92,13 @@ def test_load_vcf():
     '''
     n = load_vcf()
     assert n == 3
+
+def test_filepath():
+    
+    godb = MyDb()
+    load_filepath()
+    assert PATH + '/' + ASSAY == godb.get_filepath(ASSAY,CHROMOSOME)
+
 
 def test_connect():
     '''
@@ -92,7 +113,7 @@ def test_get_variant_data_multi_count():
     number of records for the required rsID
     '''
     ds = MyDataStore()
-    docs = ds.var_coll.get_variant_data_multi('rs181691356')
+    docs = ds.var_coll.get_variant_data_multi(RSID)
     assert len(docs) == 1
 
 def test_get_variant_summary_probs():
