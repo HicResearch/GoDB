@@ -83,8 +83,12 @@ def load_filepath():
     Load filepath for test file
     '''
     godb = MyDb()
-    fullpath = PATH + '/' + ASSAY + '/' + 'chr' + CHROMOSOME + '.vcf'
-    godb.add_filepath_detail(ASSAY, PATH, ASSAY, fullpath)
+    filename = 'chr' + CHROMOSOME + '.vcf.gz'
+    godb.add_filepath_detail(ASSAY, PATH, ASSAY, [filename])
+
+def load_samples():
+    # TODO
+    pass
 
 def test_load_vcf():
     '''
@@ -94,11 +98,17 @@ def test_load_vcf():
     assert n == 3
 
 def test_filepath():
-    
+    '''
+    Test filepath was loaded correctly
+    '''
     godb = MyDb()
     load_filepath()
-    assert PATH + '/' + ASSAY == godb.get_filepath(ASSAY,CHROMOSOME)
+    fullpath = PATH + '/' + ASSAY + '/' + 'chr' + CHROMOSOME + '.vcf.gz'
+    assert fullpath == godb.get_filepath(ASSAY,CHROMOSOME)
 
+def test_sammples():
+    # TODO
+    pass
 
 def test_connect():
     '''
@@ -117,7 +127,10 @@ def test_get_variant_data_multi_count():
     assert len(docs) == 1
 
 def test_get_variant_summary_probs():
-    pass
+    ds = MyDataStore()
+    vars = ds.get_variant_summary_probs(RSID, 0.9)
+    assert RSID == vars[0][0]["rsid"]
+    assert CHROMOSOME == vars[0][0]["chromosome"]
 
 ## RUN LAST
 def test_drop_db():
