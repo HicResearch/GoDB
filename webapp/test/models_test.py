@@ -170,6 +170,49 @@ def test_get_variant_summary_probs():
     assert '0.833333' == vars[0][0]['a_af']
     assert 0.00092393 == vars[0][0]['ref_maf']
 
+def test_get_variant_data_by_range_too_big():
+    '''
+    Test query range is too large
+    '''
+    ds = MyDataStore()
+    (vars, msg) = ds.get_variant_data_by_range(21, 1, 1000000)
+    assert len(vars) == 0
+    assert msg.startswith('Range is too great should be 250Kb or less') is True 
+
+def test_get_variant_data_by_range_too_small():
+    '''
+    Test query range is too small
+    '''
+    ds = MyDataStore()
+    (vars, msg) = ds.get_variant_data_by_range(21, 2, 1)
+    assert len(vars) == 0
+    assert msg == 'Start pos is greater than End pos' 
+
+def test_get_variant_data_by_range_nothing():
+    '''
+    Test nothing returned
+    '''
+    ds = MyDataStore()
+    (vars, msg) = ds.get_variant_data_by_range(21, 1, 10)
+    assert len(vars) == 0
+    assert msg == 'Nothing found in range' 
+
+def test_get_variant_data_by_range():
+    '''
+    Test query range 
+    '''
+    ds = MyDataStore()
+    (vars, msg) = ds.get_variant_data_by_range('21', 9411200, 9411400)
+    assert len(vars) == 2
+    assert msg == '' 
+    assert vars[0]['position'] == 9411245
+    assert vars[0]['alleleA'] == 'C'
+    assert vars[0]['alleleB'] == 'A'
+    assert vars[0]['samplecount'] == 3
+    assert vars[0]['info'] == 0.844373
+    assert vars[0]['ref_maf'] == 0.00092393
+    assert vars[0]['rsid'] == 'rs181691356'
+
 ## RUN LAST
 def test_drop_db():
     '''
