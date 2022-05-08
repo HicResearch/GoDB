@@ -8,6 +8,7 @@ from models import DataStore
 from models import _variants
 from models import _filepaths
 from models import _samples
+from vcfrecord import VCFrecord
 from godb import GoDb
 from dbconfig import DBSERVER
 from dbconfig import DBNAME_TEST
@@ -87,8 +88,25 @@ def load_filepath():
     godb.add_filepath_detail(ASSAY, PATH, ASSAY, [filename])
 
 def load_samples():
-    # TODO
-    pass
+    '''
+    Load sample names
+    '''
+    godb = MyDb()
+    fullpath = PATH + '/' + ASSAY + '/' + 'chr' + CHROMOSOME + '.vcf'
+    with open(fullpath,'r') as vcf:
+        count = 0
+        for line in vcf:
+            line = line.strip()
+            if (line.startswith('#CHROM')):
+                vcfr = VCFrecord(line)
+                prf, sfx = vcfr.get_prfx_sfx()
+                for idx, field in enumerate(sfx):
+                    count += 1
+                    godb.process_sample_detail(field, idx, ASSAY)
+                break
+    godb.flush_sample_buff()
+    return(count)
+
 
 def test_load_vcf():
     '''
@@ -107,8 +125,12 @@ def test_filepath():
     assert fullpath == godb.get_filepath(ASSAY,CHROMOSOME)
 
 def test_sammples():
-    # TODO
-    pass
+    '''
+    Test samples were loaded correctly
+    '''
+    godb = MyDb()
+    n = load_samples()
+    assert n == 3
 
 def test_connect():
     '''
