@@ -4,7 +4,7 @@ sys.path.insert(1, 'lib/py')
 import vcfrecord
 
 def get_vcf_line(num = 1):
-    with open('lib/py/test/gs.vcf','r') as vcf:
+    with open('lib/py/test/gs/chr21.vcf','r') as vcf:
         n = 0     
         for line in vcf:
             line = line.strip()
