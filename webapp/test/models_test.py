@@ -149,10 +149,26 @@ def test_get_variant_data_multi_count():
     assert len(docs) == 1
 
 def test_get_variant_summary_probs():
+    '''
+    Test variant stats
+    '''
     ds = MyDataStore()
+    # Set threshold = 0.9
     vars = ds.get_variant_summary_probs(RSID, 0.9)
     assert RSID == vars[0][0]["rsid"]
     assert CHROMOSOME == vars[0][0]["chromosome"]
+    assert 1 == vars[0][0]["Missing"]
+    assert '1.00000000' == vars[0][0]["hwe_p"]
+    assert '0.750000' == vars[0][0]['a_af']
+    assert 0.00092393 == vars[0][0]['ref_maf']
+    # Set threshold = 0.4
+    vars = ds.get_variant_summary_probs(RSID, 0.4)
+    assert RSID == vars[0][0]["rsid"]
+    assert CHROMOSOME == vars[0][0]["chromosome"]
+    assert 0 == vars[0][0]["Missing"]
+    assert '1.00000000' == vars[0][0]["hwe_p"]
+    assert '0.833333' == vars[0][0]['a_af']
+    assert 0.00092393 == vars[0][0]['ref_maf']
 
 ## RUN LAST
 def test_drop_db():
