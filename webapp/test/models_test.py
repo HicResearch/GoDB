@@ -213,6 +213,34 @@ def test_get_variant_data_by_range():
     assert vars[0]['ref_maf'] == 0.00092393
     assert vars[0]['rsid'] == 'rs181691356'
 
+def test_get_rslist_data():
+    '''
+    Test output from range list search
+    '''
+    ds = MyDataStore()
+    rsid_list = [u'rs181691356', u'21:9411298', u'rs550852792']
+    threshold = 0.9
+    dl_list = [u'rs181691356_broad', u'21:9411298_broad', u'rs550852792_broad']
+    (pdata, snpdata, msg) = ds.get_rslist_data(rsid_list, threshold, dl_list)
+    assert pdata['gd'][1] == 'Sample1,0,1.0,gd,A,0,1.0,gd,A'
+    assert snpdata == 'SNPId,AssayType,chr,pos,REF,REF_fr,ALT,ALT_fr,MAF,Imputed,CallRate,HWE_pval,Info\nrs181691356,gd,21,9411245,C,0.750000,A,0.250000,0.250000,1,0.66667,1.00000,0.84437\nrs550852792,gd,21,9411313,G,1.000000,A,0.000000,0.000000,0,0.66667,1.00000,1.00000\n'
+    assert msg is None
+
+def test_get_range_data():
+    '''
+    TODO - test more range data
+    '''
+    ds = MyDataStore()
+    chromosome = '21'
+    start = 9411200
+    end = 9411400
+    threshold = 0.9
+    dl_list = [u'rs181691356_broad', u'21:9411298_broad', u'rs550852792_broad']
+    #ds.get_range_data()
+
+def test_get_genotype_probs():
+    pass
+
 ## RUN LAST
 def test_drop_db():
     '''
