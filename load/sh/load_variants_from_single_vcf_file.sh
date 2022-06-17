@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 export CONFFILE=$1
 source ${CONFFILE}
 date

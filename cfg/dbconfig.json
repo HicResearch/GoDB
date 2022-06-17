@@ -1,5 +1,5 @@
 {
-  "Dbhost":"localhost",
+  "Dbhost":"172.17.0.1",
   "Dbname":"genomicsdb",
   "VarCollection": "variants",
   "FpCollection":"filepaths",

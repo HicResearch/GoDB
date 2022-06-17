@@ -3,4 +3,4 @@ port=8085
 print "Starting on port %d" % port
 
 if __name__ == "__main__":
-  app.run(port=port)
+  app.run(port=port,host="0.0.0.0")
